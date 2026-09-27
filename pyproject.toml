@@ -1,0 +1,30 @@
+[project]
+name = "mentor-bahasa-inggris-virtual"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "lostmys3lf", email = "noviatriutami53@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "google-genai>=2.24.0",
+    "loguru>=0.7.3",
+    "markdown-pdf>=1.13.3",
+    "pydantic>=2.13.5",
+    "python-dotenv>=1.2.3",
+    "python-telegram-bot[job-queue]>=22.8",
+    "supabase>=2.31.0",
+    "telegramify-markdown>=1.2.0",
+]
+
+[project.scripts]
+mentor-bahasa-inggris-virtual = "src:main"
+
+[build-system]
+requires = ["uv_build>=0.12.10,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "src"
+module-root = ""
