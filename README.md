@@ -130,7 +130,7 @@ Diagram ini menunjukkan interaksi Peserta dengan pendaftaran, pembuatan latihan,
 
 ![Solution architecture Mentor Bahasa Inggris Virtual](docs/solution-architecture.svg)
 
-Telegram dan CLI meneruskan permintaan ke handler dan `LeadAgent`. Orkestrator memuat riwayat dari Supabase, menggunakan Gemini untuk memilih fungsi, lalu menjalankan layanan latihan, evaluasi, tips, audio, atau laporan. Bot mengirim balasan dan lampiran; JobQueue mengirim pengingat harian pukul 08.00 WIB.
+Arsitektur utama terdiri dari **Telegram Bot API** sebagai kanal peserta, **Python** sebagai backend dan orkestrator, **Google Gemini** untuk pemrosesan AI dan text-to-speech, serta **Supabase** untuk menyimpan pengguna dan riwayat percakapan. Backend juga membuat audio WAV dan laporan PDF sebagai lampiran Telegram; JobQueue mengirim pengingat harian pukul 08.00 WIB.
 
 ## Alur aplikasi
 
