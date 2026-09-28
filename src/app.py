@@ -170,7 +170,10 @@ async def task_reminder(context: ContextTypes.DEFAULT_TYPE):
 async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.error(f"Error: {context.error}")
     if update.effective_message:
-        await update.effective_message.reply_text(f"Terjadi error: {context.error}")
+        await update.effective_message.reply_text(
+            f"Terjadi error: {context.error}",
+            parse_mode=None,
+        )
 
 
 def run():
