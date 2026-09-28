@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="960" viewBox="0 0 1600 960" role="img" aria-labelledby="title desc">
+  <title id="title">Solution architecture Mentor Bahasa Inggris Virtual</title>
+  <desc id="desc">Peserta memakai bot Telegram atau CLI. Handler meneruskan pesan ke LeadAgent, yang mengelola riwayat melalui ChatRepository dan memilih layanan. Layanan latihan, evaluasi, tips, audio, dan laporan memakai Google Gemini. Supabase menyimpan pengguna dan percakapan. File WAV dan PDF dibuat lokal lalu dikirim melalui Telegram. JobQueue mengirim pengingat pukul 08.00 WIB.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 1 1 L 10 6 L 1 11 Z" fill="#3559a4"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 1 1 L 10 6 L 1 11 Z" fill="#168270"/>
+    </marker>
+    <style>
+      .bg { fill: #f7f9fe; }
+      .eyebrow { font: 700 17px Arial, sans-serif; fill: #f05c32; letter-spacing: 2px; text-anchor: middle; }
+      .title { font: 700 39px Arial, sans-serif; fill: #102858; text-anchor: middle; }
+      .subtitle { font: 17px Arial, sans-serif; fill: #4f6285; text-anchor: middle; }
+      .card { fill: #fff; stroke: #c8d5ed; stroke-width: 2; }
+      .card-head { fill: #102858; }
+      .card-title { font: 700 16px Arial, sans-serif; fill: #fff; text-anchor: middle; letter-spacing: .6px; }
+      .panel { fill: #f5f8ff; stroke: #d7e2f4; stroke-width: 1.5; }
+      .panel-green { fill: #eefaf7; stroke: #bce5d9; stroke-width: 1.5; }
+      .panel-orange { fill: #fff7f1; stroke: #f5d8c2; stroke-width: 1.5; }
+      .panel-title { font: 700 19px Arial, sans-serif; fill: #153364; }
+      .panel-title-green { font: 700 19px Arial, sans-serif; fill: #126454; }
+      .body { font: 16px Arial, sans-serif; fill: #344563; }
+      .small { font: 14px Arial, sans-serif; fill: #586a87; }
+      .number { font: 700 30px Arial, sans-serif; fill: #f05c32; }
+      .flow { fill: none; stroke: #3559a4; stroke-width: 3; marker-end: url(#arrow); }
+      .data { fill: none; stroke: #168270; stroke-width: 3; marker-end: url(#arrow-green); }
+      .label { font: 14px Arial, sans-serif; fill: #3559a4; text-anchor: middle; paint-order: stroke; stroke: #f7f9fe; stroke-width: 8; stroke-linejoin: round; }
+      .section { font: 700 17px Arial, sans-serif; fill: #102858; letter-spacing: .5px; }
+      .footer { font: 14px Arial, sans-serif; fill: #667690; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1600" height="960"/>
+  <text class="eyebrow" x="800" y="42">SOLUTION ARCHITECTURE</text>
+  <text class="title" x="800" y="89">Mentor Bahasa Inggris Virtual</text>
+  <text class="subtitle" x="800" y="121">Alur pesan, orkestrasi AI, penyimpanan, dan hasil belajar</text>
+
+  <!-- Alur utama -->
+  <path class="flow" d="M 270 399 H 300"/>
+  <path class="flow" d="M 570 399 H 600"/>
+  <path class="flow" d="M 900 399 H 930"/>
+  <path class="flow" d="M 1260 399 H 1290"/>
+
+  <!-- Channel -->
+  <rect class="card" x="35" y="190" width="235" height="454" rx="17"/>
+  <path class="card-head" d="M 52 190 H 253 Q 270 190 270 207 V 233 H 35 V 207 Q 35 190 52 190 Z"/>
+  <text class="card-title" x="152" y="218">KANAL PESERTA</text>
+  <rect class="panel" x="53" y="263" width="199" height="126" rx="12"/>
+  <text class="panel-title" x="70" y="295">Telegram bot</text>
+  <text class="body" x="70" y="326">/start · /report</text>
+  <text class="body" x="70" y="353">Teks · voice note</text>
+  <rect class="panel" x="53" y="414" width="199" height="105" rx="12"/>
+  <text class="panel-title" x="70" y="446">CLI</text>
+  <text class="body" x="70" y="477">Percakapan teks</text>
+  <text class="small" x="53" y="560">Peserta meminta latihan,</text>
+  <text class="small" x="53" y="583">evaluasi, tips, atau laporan.</text>
+
+  <!-- Application -->
+  <rect class="card" x="300" y="190" width="270" height="454" rx="17"/>
+  <path class="card-head" d="M 317 190 H 553 Q 570 190 570 207 V 233 H 300 V 207 Q 300 190 317 190 Z"/>
+  <text class="card-title" x="435" y="218">LAPISAN APLIKASI</text>
+  <text class="number" x="321" y="287">01</text>
+  <text class="panel-title" x="363" y="285">Handler input</text>
+  <text class="small" x="322" y="316">src/app.py · src/app_cli.py</text>
+  <rect class="panel" x="318" y="340" width="234" height="142" rx="12"/>
+  <text class="body" x="333" y="370">/start → registrasi</text>
+  <text class="body" x="333" y="397">Teks → percakapan AI</text>
+  <text class="body" x="333" y="424">Voice → evaluasi speaking</text>
+  <text class="body" x="333" y="451">/report → laporan PDF</text>
+  <rect class="panel-green" x="318" y="504" width="234" height="102" rx="12"/>
+  <text class="panel-title-green" x="333" y="535">JobQueue</text>
+  <text class="body" x="333" y="564">Pengingat harian</text>
+  <text class="small" x="333" y="585">08.00 WIB</text>
+
+  <!-- Orchestration -->
+  <rect class="card" x="600" y="190" width="300" height="454" rx="17"/>
+  <path class="card-head" d="M 617 190 H 883 Q 900 190 900 207 V 233 H 600 V 207 Q 600 190 617 190 Z"/>
+  <text class="card-title" x="750" y="218">ORKESTRASI</text>
+  <text class="number" x="620" y="287">02</text>
+  <text class="panel-title" x="663" y="285">LeadAgent</text>
+  <text class="small" x="621" y="316">src/agents/lead.py</text>
+  <rect class="panel" x="618" y="340" width="264" height="168" rx="12"/>
+  <text class="body" x="634" y="371">Simpan pesan peserta</text>
+  <text class="body" x="634" y="400">Muat riwayat percakapan</text>
+  <text class="body" x="634" y="429">Gemini memilih fungsi</text>
+  <text class="body" x="634" y="458">Panggil layanan yang sesuai</text>
+  <text class="body" x="634" y="487">Simpan balasan &amp; path file</text>
+  <text class="small" x="620" y="550">Perintah /report dan voice note</text>
+  <text class="small" x="620" y="573">memakai jalur langsung ke layanan.</text>
+
+  <!-- Services -->
+  <rect class="card" x="930" y="190" width="330" height="454" rx="17"/>
+  <path class="card-head" d="M 947 190 H 1243 Q 1260 190 1260 207 V 233 H 930 V 207 Q 930 190 947 190 Z"/>
+  <text class="card-title" x="1095" y="218">LAYANAN BELAJAR</text>
+  <text class="number" x="950" y="287">03</text>
+  <text class="panel-title" x="993" y="285">src/agents/services.py</text>
+  <rect class="panel" x="948" y="330" width="294" height="58" rx="10"/>
+  <text class="body" x="965" y="365">Latihan: R · W · L · S</text>
+  <rect class="panel" x="948" y="398" width="294" height="58" rx="10"/>
+  <text class="body" x="965" y="433">Evaluasi writing &amp; speaking</text>
+  <rect class="panel" x="948" y="466" width="294" height="58" rx="10"/>
+  <text class="body" x="965" y="501">Tips belajar &amp; percakapan</text>
+  <rect class="panel-orange" x="948" y="534" width="294" height="67" rx="10"/>
+  <text class="body" x="965" y="564">Audio listening (WAV)</text>
+  <text class="body" x="965" y="588">Laporan belajar (PDF)</text>
+
+  <!-- External AI -->
+  <rect class="card" x="1290" y="190" width="275" height="454" rx="17"/>
+  <path class="card-head" d="M 1307 190 H 1548 Q 1565 190 1565 207 V 233 H 1290 V 207 Q 1290 190 1307 190 Z"/>
+  <text class="card-title" x="1427" y="218">LAYANAN AI EKSTERNAL</text>
+  <rect class="panel-green" x="1308" y="263" width="239" height="147" rx="12"/>
+  <text class="panel-title-green" x="1325" y="295">Google Gemini</text>
+  <text class="body" x="1325" y="327">Teks &amp; function calling</text>
+  <text class="body" x="1325" y="354">Analisis voice note</text>
+  <text class="body" x="1325" y="381">TTS dua pembicara</text>
+  <rect class="panel" x="1308" y="432" width="239" height="138" rx="12"/>
+  <text class="panel-title" x="1325" y="464">Instruksi &amp; skema</text>
+  <text class="body" x="1325" y="496">Prompt agen lokal</text>
+  <text class="body" x="1325" y="523">Validasi Pydantic</text>
+  <text class="small" x="1308" y="604">Gemini dipanggil oleh LeadAgent</text>
+  <text class="small" x="1308" y="625">dan layanan belajar.</text>
+
+  <!-- Supporting systems -->
+  <text class="section" x="300" y="694">PENYIMPANAN, FILE, DAN PENGIRIMAN</text>
+  <path class="data" d="M 750 644 V 724"/>
+  <path class="data" d="M 1095 644 V 724"/>
+  <rect class="card" x="300" y="724" width="270" height="165" rx="15"/>
+  <text class="panel-title" x="322" y="759">Pengiriman</text>
+  <text class="body" x="322" y="789">Balasan teks ke Telegram</text>
+  <text class="body" x="322" y="816">Lampiran audio atau PDF</text>
+  <text class="small" x="322" y="850">CLI hanya menampilkan teks.</text>
+  <rect class="card" x="600" y="724" width="300" height="165" rx="15"/>
+  <text class="panel-title" x="621" y="759">ChatRepository → Supabase</text>
+  <text class="body" x="621" y="789">chat_users</text>
+  <text class="body" x="621" y="816">chat_histories</text>
+  <text class="small" x="621" y="850">Pengguna, pesan, dan path file.</text>
+  <rect class="card" x="930" y="724" width="330" height="165" rx="15"/>
+  <text class="panel-title" x="951" y="759">File lokal</text>
+  <text class="body" x="951" y="789">src/temp/ → voice note masuk</text>
+  <text class="body" x="951" y="816">src/output/ → WAV dan PDF</text>
+  <text class="small" x="951" y="850">Lampiran dikirim oleh handler Telegram.</text>
+  <text class="footer" x="300" y="924">Panah biru: alur permintaan · Panah hijau: akses data atau file · R/W/L/S: reading, writing, listening, speaking</text>
+</svg>

@@ -120,6 +120,18 @@ uv run python -c "from src.app_cli import run; run()"
 
 Ketik `/exit` untuk keluar. Mode ini menggunakan `user_id=101010`, tetap membutuhkan Gemini dan Supabase, serta hanya menampilkan teks respons. File hasil generasi tidak dikirim seperti pada Telegram.
 
+## Use case diagram
+
+![Use case diagram Mentor Bahasa Inggris Virtual](docs/use-case-diagram.svg)
+
+Diagram ini menunjukkan interaksi Peserta dengan pendaftaran, pembuatan latihan, tips belajar, laporan belajar, dan evaluasi latihan. Empat jenis latihan dan empat jenis evaluasi memperluas use case utamanya.
+
+## Solution architecture
+
+![Solution architecture Mentor Bahasa Inggris Virtual](docs/solution-architecture.svg)
+
+Telegram dan CLI meneruskan permintaan ke handler dan `LeadAgent`. Orkestrator memuat riwayat dari Supabase, menggunakan Gemini untuk memilih fungsi, lalu menjalankan layanan latihan, evaluasi, tips, audio, atau laporan. Bot mengirim balasan dan lampiran; JobQueue mengirim pengingat harian pukul 08.00 WIB.
+
 ## Alur aplikasi
 
 1. Pesan Telegram diterima oleh handler di `src/app.py`.

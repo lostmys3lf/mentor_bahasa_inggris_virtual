@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="940" viewBox="0 0 1280 940" role="img" aria-labelledby="title desc">
+  <title id="title">Use case diagram Mentor Bahasa Inggris Virtual</title>
+  <desc id="desc">Peserta dapat mendaftar, membuat latihan, memperoleh tips belajar, membuat laporan belajar, dan mengevaluasi latihan. Pembuatan latihan diperluas oleh latihan reading, writing, listening, dan speaking. Evaluasi latihan diperluas oleh evaluasi reading, speaking, writing, dan listening.</desc>
+  <defs>
+    <marker id="extend-arrow" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 1 1 L 11 6.5 L 1 12" fill="none" stroke="#4b6082" stroke-width="1.7" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      .background { fill: #f8fafc; }
+      .system { fill: #fff; stroke: #cbd5e1; stroke-width: 2; }
+      .title { font: 700 25px Arial, sans-serif; fill: #162d4d; }
+      .subtitle { font: 16px Arial, sans-serif; fill: #64748b; }
+      .actor { fill: none; stroke: #233955; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .actor-label { font: 600 20px Arial, sans-serif; fill: #233955; text-anchor: middle; }
+      .association { fill: none; stroke: #64748b; stroke-width: 2.3; }
+      .extension { fill: none; stroke: #4b6082; stroke-width: 2; stroke-dasharray: 8 6; marker-end: url(#extend-arrow); }
+      .main { fill: #eaf4ff; stroke: #4174af; stroke-width: 2.4; }
+      .detail { fill: #f2f8f6; stroke: #3d8d78; stroke-width: 2.2; }
+      .main-text { font: 600 20px Arial, sans-serif; fill: #173b61; text-anchor: middle; dominant-baseline: middle; }
+      .detail-text { font: 18px Arial, sans-serif; fill: #195f4d; text-anchor: middle; dominant-baseline: middle; }
+      .rel-label { font: 15px Arial, sans-serif; fill: #4b6082; text-anchor: middle; paint-order: stroke; stroke: #fff; stroke-width: 7; stroke-linejoin: round; }
+    </style>
+  </defs>
+
+  <rect class="background" width="1280" height="940"/>
+  <text class="title" x="48" y="48">Use Case Diagram</text>
+  <text class="subtitle" x="48" y="76">Mentor Bahasa Inggris Virtual</text>
+  <rect class="system" x="300" y="92" width="932" height="810" rx="20"/>
+
+  <!-- Peserta terhubung dengan lima use case utama. -->
+  <g class="association">
+    <path d="M 145 404 L 355 145"/>
+    <path d="M 145 404 L 355 265"/>
+    <path d="M 145 404 L 355 385"/>
+    <path d="M 145 404 L 355 505"/>
+    <path d="M 145 404 L 355 645"/>
+  </g>
+
+  <!-- Varian latihan dan evaluasi memperluas use case induknya. -->
+  <g class="extension">
+    <path d="M 870 145 L 610 236"/>
+    <path d="M 870 245 L 647 259"/>
+    <path d="M 870 345 L 647 271"/>
+    <path d="M 870 445 L 610 294"/>
+    <path d="M 380 800 L 425 686"/>
+    <path d="M 610 800 L 460 687"/>
+    <path d="M 840 800 L 540 689"/>
+    <path d="M 1070 800 L 613 675"/>
+  </g>
+
+  <g class="actor">
+    <circle cx="112" cy="358" r="17"/>
+    <path d="M 112 375 L 112 425 M 79 395 L 145 395 M 112 425 L 82 463 M 112 425 L 142 463"/>
+  </g>
+  <text class="actor-label" x="112" y="495">Peserta</text>
+
+  <g>
+    <ellipse class="main" cx="500" cy="145" rx="145" ry="44"/>
+    <ellipse class="main" cx="500" cy="265" rx="145" ry="44"/>
+    <ellipse class="main" cx="500" cy="385" rx="145" ry="44"/>
+    <ellipse class="main" cx="500" cy="505" rx="145" ry="44"/>
+    <ellipse class="main" cx="500" cy="645" rx="145" ry="48"/>
+    <text class="main-text" x="500" y="145">Pendaftaran peserta</text>
+    <text class="main-text" x="500" y="265">Pembuatan latihan</text>
+    <text class="main-text" x="500" y="385">Pembuatan tips belajar</text>
+    <text class="main-text" x="500" y="495">Pembuatan laporan</text>
+    <text class="main-text" x="500" y="520">belajar</text>
+    <text class="main-text" x="500" y="645">Evaluasi latihan</text>
+  </g>
+
+  <g>
+    <ellipse class="detail" cx="1010" cy="145" rx="140" ry="42"/>
+    <ellipse class="detail" cx="1010" cy="245" rx="140" ry="42"/>
+    <ellipse class="detail" cx="1010" cy="345" rx="140" ry="42"/>
+    <ellipse class="detail" cx="1010" cy="445" rx="140" ry="42"/>
+    <text class="detail-text" x="1010" y="145">Latihan reading</text>
+    <text class="detail-text" x="1010" y="245">Latihan writing</text>
+    <text class="detail-text" x="1010" y="345">Latihan listening</text>
+    <text class="detail-text" x="1010" y="445">Latihan speaking</text>
+  </g>
+
+  <g>
+    <ellipse class="detail" cx="380" cy="840" rx="92" ry="40"/>
+    <ellipse class="detail" cx="610" cy="840" rx="92" ry="40"/>
+    <ellipse class="detail" cx="840" cy="840" rx="92" ry="40"/>
+    <ellipse class="detail" cx="1070" cy="840" rx="92" ry="40"/>
+    <text class="detail-text" x="380" y="833">Evaluasi</text>
+    <text class="detail-text" x="380" y="852">reading</text>
+    <text class="detail-text" x="610" y="833">Evaluasi</text>
+    <text class="detail-text" x="610" y="852">speaking</text>
+    <text class="detail-text" x="840" y="833">Evaluasi</text>
+    <text class="detail-text" x="840" y="852">writing</text>
+    <text class="detail-text" x="1070" y="833">Evaluasi</text>
+    <text class="detail-text" x="1070" y="852">listening</text>
+  </g>
+
+  <g class="rel-label">
+    <text x="754" y="180">«extend»</text>
+    <text x="760" y="238">«extend»</text>
+    <text x="758" y="324">«extend»</text>
+    <text x="757" y="382">«extend»</text>
+    <text x="364" y="751">«extend»</text>
+    <text x="530" y="750">«extend»</text>
+    <text x="720" y="752">«extend»</text>
+    <text x="891" y="742">«extend»</text>
+  </g>
+</svg>
