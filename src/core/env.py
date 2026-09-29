@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 
 SRC_DIR = Path(__file__).resolve().parent.parent  # .. /src
-INSTRUCTION_DIR = SRC_DIR / "agents" / "instructions"  # .. /src/agents/instruction
+INSTRUCTION_DIR = SRC_DIR / "agents" / "Instructions"  # .. /src/agents/Instructions
 DOCS_DIR = SRC_DIR / "docs"  # .. /src/docs
 OUTPUT_DIR = SRC_DIR / "output"  # .. /src/output
 TEMP = SRC_DIR / "temp"  # .. /src/temp

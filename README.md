@@ -1,67 +1,67 @@
 # Mentor Bahasa Inggris Virtual
 
-Bot Telegram berbasis AI untuk belajar bahasa Inggris melalui percakapan, latihan, dan evaluasi. Project ini menggunakan Google Gemini untuk memproses pesan dan audio, serta Supabase untuk menyimpan pengguna dan riwayat belajar.
+An AI-powered Telegram bot for learning English through conversation, exercises, and feedback. The project uses Google Gemini to process messages and audio, and Supabase to store users and learning history.
 
-## Fitur
+## Features
 
-- **Latihan empat keterampilan:** reading, writing, listening, dan speaking sesuai permintaan pengguna.
-- **Evaluasi writing:** koreksi grammar dan penulisan dari teks yang dikirim.
-- **Evaluasi speaking:** umpan balik dari voice note Telegram.
-- **Audio listening:** percakapan dua pembicara dalam format WAV beserta pertanyaan latihan.
-- **Riwayat percakapan:** tersimpan di Supabase dan digunakan sebagai konteks balasan.
-- **Laporan belajar PDF:** dibuat lewat perintah `/report`.
-- **Pengingat harian:** dikirim pukul **08.00 WIB** selama aplikasi berjalan.
-- **Tips belajar** dan mode percakapan melalui terminal (CLI).
+- **Four language skills:** reading, writing, listening, and speaking exercises on request.
+- **Writing feedback:** grammar and writing corrections for submitted text.
+- **Speaking feedback:** feedback on Telegram voice messages.
+- **Listening audio:** two-speaker conversations in WAV format with practice questions.
+- **Conversation history:** stored in Supabase and used as context for replies.
+- **PDF learning reports:** generated with the `/report` command.
+- **Daily reminders:** sent at **08:00 WIB (Western Indonesia Time)** while the application is running.
+- **Study tips** and a command-line conversation mode (CLI).
 
-## Teknologi
+## Technology stack
 
-| Komponen | Teknologi |
+| Component | Technology |
 | --- | --- |
-| Bahasa | Python 3.11 atau lebih baru |
-| AI dan text-to-speech | Google Gemini melalui `google-genai` |
-| Bot | `python-telegram-bot` dengan JobQueue |
+| Language | Python 3.11 or later |
+| AI and text-to-speech | Google Gemini via `google-genai` |
+| Bot | `python-telegram-bot` with JobQueue |
 | Database | Supabase |
-| Validasi respons AI | Pydantic |
-| Pembuatan laporan | `markdown-pdf` |
-| Konfigurasi dan logging | `python-dotenv`, Loguru |
-| Pengelolaan dependency | uv |
+| AI response validation | Pydantic |
+| Report generation | `markdown-pdf` |
+| Configuration and logging | `python-dotenv`, Loguru |
+| Dependency management | uv |
 
-## Persiapan
+## Prerequisites
 
-Siapkan Python 3.11+, uv, koneksi internet, serta:
+Install Python 3.11+ and uv, ensure you have an internet connection, and prepare:
 
-1. API key Gemini dan akses ke model untuk teks, pemrosesan audio, dan text-to-speech dua pembicara.
-2. Project Supabase beserta URL dan key untuk backend.
-3. Token bot Telegram dari **@BotFather**.
+1. A Gemini API key and access to models for text, audio processing, and two-speaker text-to-speech.
+2. A Supabase project with its URL and backend key.
+3. A Telegram bot token from **@BotFather**.
 
-### 1. Instal dependency
+### 1. Install dependencies
 
-Jalankan dari direktori utama project:
+Run this from the project root:
 
 ```bash
 uv sync --locked
 ```
 
-### 2. Atur environment variable
+### 2. Set environment variables
 
-Buat file `.env` di direktori yang sama dengan `main.py`, lalu isi:
+Create a `.env` file in the same directory as `main.py`:
 
 ```dotenv
-GEMINI_API_KEY=isi_api_key_gemini
-GEMINI_MODEL=isi_id_model_gemini_teks_dan_audio
-GEMINI_MODEL_TTS=isi_id_model_gemini_tts
+GEMINI_API_KEY=your_gemini_api_key
+GEMINI_MODEL=your_gemini_text_and_audio_model_id
+GEMINI_MODEL_TTS=your_gemini_tts_model_id
 SUPABASE_URL=https://PROJECT_ID.supabase.co
-SUPABASE_KEY=isi_key_backend_supabase
-TELEGRAM_BOT_TOKEN=isi_token_bot_telegram
+SUPABASE_KEY=your_supabase_backend_key
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token
 ```
 
-Ganti seluruh placeholder dengan konfigurasi milikmu. `GEMINI_MODEL` harus mendukung function calling dan input audio; `GEMINI_MODEL_TTS` harus mendukung keluaran audio dengan dua pembicara. Nama model dibaca dari `.env`, bukan ditetapkan di kode.
+Replace every placeholder with your own configuration. `GEMINI_MODEL` must support function calling and audio input; `GEMINI_MODEL_TTS` must support two-speaker audio output. Model names are read from `.env`, not hard-coded.
 
-Semua variabel di atas wajib terisi, termasuk saat memakai CLI. Jangan commit `.env` atau membagikan key. `.gitignore` saat ini belum mengecualikan `.env`; tambahkan entri `.env` sebelum melakukan commit konfigurasi lokal.
+All six variables are required, including in CLI mode. Do not share your keys. The `.env` file is excluded by `.gitignore`.
 
-### 3. Siapkan tabel Supabase
+### 3. Set up Supabase tables
 
-Repository belum menyediakan migrasi database. Berikut contoh skema minimal berdasarkan kolom yang dipakai oleh `ChatRepository`. Jalankan di SQL Editor untuk project Supabase baru:
+The repository does not include database migrations. This minimal example uses the columns accessed by `ChatRepository`. Run it in the SQL Editor for a new Supabase project:
 
 ```sql
 create table public.chat_users (
@@ -86,104 +86,103 @@ alter table public.chat_users enable row level security;
 alter table public.chat_histories enable row level security;
 ```
 
-Contoh ini memakai RLS tanpa policy akses publik. Gunakan key backend Supabase yang dapat melewati RLS, misalnya `service_role`, hanya di environment server/lokal yang menjalankan bot. Aplikasi tidak memiliki alur login Supabase untuk pengguna Telegram.
+This example enables row level security (RLS) without public access policies. Use a Supabase backend key that can bypass RLS, such as `service_role`, only in the server or local environment that runs the bot. The application does not provide a Supabase login flow for Telegram users.
 
-## Menjalankan bot
+## Run the bot
 
 ```bash
 uv run python main.py
 ```
 
-Bot menerima pesan melalui **polling**, sehingga tidak membutuhkan konfigurasi webhook. Biarkan proses tetap berjalan agar bot menerima pesan dan mengirim pengingat.
+The bot receives messages through **polling**, so no webhook configuration is needed. Keep the process running to receive messages and send reminders.
 
-Buka percakapan pribadi dengan bot di Telegram, lalu kirim `/start` untuk mendaftarkan pengguna.
+Open a private chat with the bot on Telegram and send `/start` to register.
 
-| Perintah atau input | Kegunaan |
+| Command or input | Purpose |
 | --- | --- |
-| `/start` | Mendaftarkan pengguna dan menampilkan panduan |
-| `/report` | Membuat dan mengirim laporan belajar PDF |
-| `Buatkan soal reading untuk pemula` | Meminta latihan reading |
-| `Buatkan latihan writing tentang kegiatan sehari-hari` | Meminta latihan writing |
-| `Buatkan latihan listening tentang memesan makanan` | Meminta audio dan pertanyaan listening |
-| `Buatkan latihan speaking untuk perkenalan diri` | Meminta latihan speaking |
-| `Periksa: I goes to school` | Meminta koreksi tulisan |
-| `Kasih tips belajar` | Mendapatkan tips belajar |
-| Voice note berbahasa Inggris | Meminta evaluasi speaking |
+| `/start` | Register and display the usage guide |
+| `/report` | Generate and send a PDF learning report |
+| `Create a beginner reading exercise` | Request a reading exercise |
+| `Create a writing exercise about daily activities` | Request a writing exercise |
+| `Create a listening exercise about ordering food` | Request listening audio and questions |
+| `Create a speaking exercise for introducing myself` | Request a speaking exercise |
+| `Check: I goes to school` | Request writing corrections |
+| `Give me study tips` | Get study tips |
+| An English voice message | Request speaking feedback |
 
-### Mode CLI
+### CLI mode
 
-Untuk mencoba percakapan lewat terminal:
+To try conversations in the terminal:
 
 ```bash
 uv run python -c "from src.app_cli import run; run()"
 ```
 
-Ketik `/exit` untuk keluar. Mode ini menggunakan `user_id=101010`, tetap membutuhkan Gemini dan Supabase, serta hanya menampilkan teks respons. File hasil generasi tidak dikirim seperti pada Telegram.
+Type `/exit` to quit. This mode uses `user_id=101010`, still requires Gemini and Supabase, and displays only text responses. Generated files are not sent as they are on Telegram.
 
 ## Use case diagram
 
-![Use case diagram Mentor Bahasa Inggris Virtual](docs/use-case-diagram.svg)
+![Mentor Bahasa Inggris Virtual use case diagram](docs/use-case-diagram.svg)
 
-Diagram ini menunjukkan interaksi Peserta dengan pendaftaran, pembuatan latihan, tips belajar, laporan belajar, dan evaluasi latihan. Empat jenis latihan dan empat jenis evaluasi memperluas use case utamanya.
+The diagram shows how learners interact with registration, exercise generation, study tips, learning reports, and exercise feedback. Four exercise types and four feedback types extend the main use cases.
 
 ## Solution architecture
 
-![Solution architecture Mentor Bahasa Inggris Virtual](docs/solution-architecture.svg)
+![Mentor Bahasa Inggris Virtual solution architecture](docs/solution-architecture.svg)
 
-Arsitektur utama terdiri dari **Telegram Bot API** sebagai kanal peserta, **Python** sebagai backend dan orkestrator, **Google Gemini** untuk pemrosesan AI dan text-to-speech, serta **Supabase** untuk menyimpan pengguna dan riwayat percakapan. Backend juga membuat audio WAV dan laporan PDF sebagai lampiran Telegram; JobQueue mengirim pengingat harian pukul 08.00 WIB.
+The architecture uses the **Telegram Bot API** as the learner interface, **Python** as the backend and orchestrator, **Google Gemini** for AI processing and text-to-speech, and **Supabase** to store users and conversation history. The backend also creates WAV audio and PDF reports as Telegram attachments; JobQueue sends daily reminders at 08:00 WIB.
 
-## Alur aplikasi
+## Application flow
 
-1. Pesan Telegram diterima oleh handler di `src/app.py`.
-2. `LeadAgent` menyimpan pesan dan mengambil riwayat percakapan pengguna dari Supabase.
-3. Gemini memilih fungsi yang sesuai, seperti membuat latihan, mengevaluasi tulisan, atau memberikan tips.
-4. Respons disimpan ke database, lalu dikirim ke pengguna beserta file hasil generasi jika tersedia.
+1. A handler in `src/app.py` receives a Telegram message.
+2. `LeadAgent` stores the message and retrieves the user's conversation history from Supabase.
+3. Gemini selects the appropriate function, such as generating an exercise, evaluating writing, or giving tips.
+4. The response is stored in the database and sent to the user with any generated files.
 
-Voice note diproses melalui evaluasi speaking. Perintah `/report` mengambil riwayat percakapan, menyusun laporan dengan Gemini, lalu mengubahnya menjadi PDF.
+Voice messages are processed for speaking feedback. The `/report` command retrieves conversation history, asks Gemini to create a report, and converts it to PDF.
 
-## Struktur project
+## Project structure
 
 ```text
 .
-├── main.py                       # Entry point bot Telegram
-├── pyproject.toml                # Metadata dan dependency
-├── uv.lock                       # Versi dependency yang dikunci
+├── main.py                       # Telegram bot entry point
+├── pyproject.toml                # Project metadata and dependencies
+├── uv.lock                       # Locked dependency versions
 └── src/
-    ├── app.py                    # Handler Telegram dan pengingat harian
-    ├── app_cli.py                # Percakapan lewat terminal
+    ├── app.py                    # Telegram handlers and daily reminders
+    ├── app_cli.py                # Terminal conversations
     ├── agents/
-    │   ├── lead.py               # Orkestrasi percakapan dan pemanggilan fungsi
-    │   ├── services.py           # Latihan, evaluasi, audio, dan laporan
-    │   └── Instructions/         # Instruksi masing-masing agen
+    │   ├── lead.py               # Conversation orchestration and function calls
+    │   ├── services.py           # Exercises, feedback, audio, and reports
+    │   └── Instructions/         # Instructions for individual agents
     ├── core/
-    │   ├── env.py                # Environment variable dan direktori
-    │   ├── llm.py                # Client Gemini dan retry
-    │   ├── supabase.py           # Client Supabase
-    │   ├── schemas.py            # Skema respons terstruktur
-    │   ├── prompts.py            # Pembacaan instruksi agen
-    │   ├── artifacts.py          # Pengumpulan file hasil generasi
-    │   └── format.py             # Format Markdown Telegram
+    │   ├── env.py                # Environment variables and directories
+    │   ├── llm.py                # Gemini client and retries
+    │   ├── supabase.py           # Supabase client
+    │   ├── schemas.py            # Structured response schemas
+    │   ├── prompts.py            # Agent instruction loading
+    │   ├── artifacts.py          # Generated file collection
+    │   └── format.py             # Telegram Markdown formatting
     ├── repository/
-    │   └── chat_repository.py    # Akses data pengguna dan percakapan
-    └── output/                   # Audio dan PDF hasil generasi
+    │   └── chat_repository.py    # User and conversation data access
+    └── output/                   # Generated audio and PDFs
 ```
 
-Direktori `src/temp/` dibuat saat menerima voice note. File voice note lokal dihapus setelah pemrosesan berhasil; lampiran yang dikirim melalui `_send_artifact` juga dihapus setelah berhasil dikirim.
+The `src/temp/` directory is created when a voice message is received. Local voice message files are deleted after successful processing; attachments sent through `_send_artifact` are also deleted after they are sent successfully.
 
-## Catatan implementasi
+## Implementation notes
 
-- `/report` memberikan rentang tanggal tujuh hari terakhir kepada model, tetapi pengambilan riwayat dari database **belum difilter berdasarkan tanggal**. Laporan masih dapat mempertimbangkan percakapan di luar rentang tersebut.
-- Pengingat menggunakan ID pengguna sebagai tujuan pesan. Gunakan bot melalui percakapan pribadi.
-- Pada sistem yang membedakan huruf besar dan kecil, samakan nama folder `src/agents/Instructions/` dengan path `instructions` di `src/core/env.py` agar instruksi dapat dibaca.
-- Jalankan bot melalui `uv run python main.py`. Entry point paket `mentor-bahasa-inggris-virtual` saat ini masih menjalankan fungsi placeholder di `src/__init__.py`.
+- `/report` gives the model a date range covering the last seven days, but the database query **does not yet filter history by date**. Reports may still take older conversations into account.
+- Reminders use the user ID as the message destination. Use the bot in a private chat.
+- Start the bot with `uv run python main.py`. The `mentor-bahasa-inggris-virtual` package entry point currently runs a placeholder function in `src/__init__.py`.
 
-## Kendala umum
+## Troubleshooting
 
-| Kendala | Yang perlu diperiksa |
+| Issue | What to check |
 | --- | --- |
-| `Environment variable '...' belum diatur` | Pastikan keenam variabel di `.env` terisi dan jalankan dari direktori utama project |
-| Tabel tidak ditemukan atau akses Supabase ditolak | Periksa skema tabel, URL project, key backend, dan pengaturan RLS |
-| Instruksi agen tidak ditemukan | Periksa kapitalisasi folder `Instructions` dan path di `env.py` |
-| Audio listening gagal dibuat | Periksa akses model TTS, dukungan dua pembicara, dan kuota Gemini |
-| `ZoneInfoNotFoundError` untuk `Asia/Jakarta` | Instal data zona waktu dengan `uv pip install tzdata` pada environment yang digunakan |
-| Pengingat tidak terkirim | Pastikan pengguna sudah mengirim `/start` di chat pribadi dan bot aktif pukul 08.00 WIB |
+| `Environment variable '...' belum diatur` | Make sure all six variables are set in `.env` and run the application from the project root |
+| Table not found or Supabase access denied | Check the table schema, project URL, backend key, and RLS settings |
+| Agent instructions not found | Check that the instruction files exist in `src/agents/Instructions/` |
+| Listening audio generation fails | Check TTS model access, two-speaker support, and your Gemini quota |
+| `ZoneInfoNotFoundError` for `Asia/Jakarta` | Install time zone data with `uv pip install tzdata` in the environment you use |
+| Reminders are not delivered | Make sure the user has sent `/start` in a private chat and the bot is running at 08:00 WIB |

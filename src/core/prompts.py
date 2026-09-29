@@ -8,7 +8,7 @@ from supabase import Client, create_client
 @lru_cache
 def load_instruction(name: str) -> str:
     """Baca file instruksi berdasarkan nama file, contoh: load_instruction('agent-lead')"""
-    path = env.INSTRUCTION_DIR / f"{name}.md"  # src /agents/instructions/agent-lead.md
+    path = env.INSTRUCTION_DIR / f"{name}.md"  # src/agents/Instructions/agent-lead.md
 
     if not path.exists():
         raise FileNotFoundError(
